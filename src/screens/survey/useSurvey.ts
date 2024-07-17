@@ -78,7 +78,7 @@ export const useSurvey = () => {
   };
 
   const isButtonDisabled = useMemo(
-    () => answers.every((answer) => !answer.answer_id),
+    () => answers.some((answer) => !answer.answer_id),
     [answers]
   );
 
