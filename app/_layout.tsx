@@ -1,32 +1,29 @@
-import 'react-native-reanimated';
-import { Text, View } from 'react-native';
+import "react-native-reanimated";
 
-import { useFonts } from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useFonts } from "expo-font";
+import { NavigationContainer } from "@react-navigation/native";
+import StackNavigator from "@/src/navigation/stackNavigator";
 
+import Toast from "react-native-toast-message";
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+const queryClient = new QueryClient();
 
 export default function RootLayout() {
   const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf")
   });
-
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
 
   if (!loaded) {
     return null;
   }
 
   return (
-    <View>
-      <Text>App</Text>
-    </View>
+    <NavigationContainer independent={true}>
+      <QueryClientProvider client={queryClient}>
+        <StackNavigator />
+        <Toast />
+      </QueryClientProvider>
+    </NavigationContainer>
   );
 }
